@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct Arrow: Shape {
+    var lineThickness: CGFloat
+
     func path(in rect: CGRect) -> Path {
         var path = Path()
 
@@ -18,9 +20,9 @@ struct Arrow: Shape {
 
         path.addRect(
             CGRect(
-                x: 0.25 * rect.maxX,
+                x: 0.5 * (1 - lineThickness) * rect.maxX,
                 y: rect.midY,
-                width: 0.5 * rect.width,
+                width: lineThickness * rect.width,
                 height: 0.5 * rect.height
             )
         )
@@ -30,9 +32,20 @@ struct Arrow: Shape {
 }
 
 struct ContentView: View {
+    @State private var lineThickness: CGFloat = 0.5
+
     var body: some View {
-        Arrow()
-            .frame(width: 150, height: 150)
+        VStack {
+            Arrow(lineThickness: lineThickness)
+                .frame(width: 150, height: 150)
+                .padding(.bottom)
+
+            HStack {
+                Text("Line thickness")
+                Slider(value: $lineThickness)
+            }
+        }
+        .padding()
     }
 }
 
