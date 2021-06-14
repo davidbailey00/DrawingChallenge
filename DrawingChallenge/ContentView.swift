@@ -7,10 +7,32 @@
 
 import SwiftUI
 
+struct Arrow: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+
+        path.move(to: CGPoint(x: rect.midX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.midY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.midY))
+        path.addLine(to: CGPoint(x: rect.midX, y: rect.minY))
+
+        path.addRect(
+            CGRect(
+                x: 0.25 * rect.maxX,
+                y: rect.midY,
+                width: 0.5 * rect.width,
+                height: 0.5 * rect.height
+            )
+        )
+
+        return path
+    }
+}
+
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        Arrow()
+            .frame(width: 150, height: 150)
     }
 }
 
