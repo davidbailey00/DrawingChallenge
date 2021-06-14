@@ -10,6 +10,11 @@ import SwiftUI
 struct Arrow: Shape {
     var lineThickness: CGFloat
 
+    var animatableData: CGFloat {
+        get { lineThickness }
+        set { lineThickness = newValue }
+    }
+
     func path(in rect: CGRect) -> Path {
         var path = Path()
 
@@ -32,7 +37,7 @@ struct Arrow: Shape {
 }
 
 struct ContentView: View {
-    @State private var lineThickness: CGFloat = 0.5
+    @State private var lineThickness: CGFloat = 0.25
 
     var body: some View {
         VStack {
@@ -40,9 +45,14 @@ struct ContentView: View {
                 .frame(width: 150, height: 150)
                 .padding(.bottom)
 
-            HStack {
-                Text("Line thickness")
-                Slider(value: $lineThickness)
+            Button("Toggle line thickness") {
+                withAnimation {
+                    if lineThickness == 0.75 {
+                        lineThickness = 0.25
+                    } else {
+                        lineThickness = 0.75
+                    }
+                }
             }
         }
         .padding()
